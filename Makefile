@@ -2,9 +2,10 @@ TOPTARGETS = install build preconfigure configure src install-dependencies requi
 SUBDIR_EXLUDES= dot/.
 SUBDIRS = $(filter-out $(SUBDIR_EXLUDES), $(wildcard */.))
 
-default:
+default: dependencies install
+
+dependencies:
 	make require-dependencies || sudo make install-dependencies
-	make install
 
 $(TOPTARGETS): $(SUBDIRS)
 $(SUBDIRS):

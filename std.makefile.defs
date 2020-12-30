@@ -8,21 +8,6 @@ install: build
 build: configure
 	make -C src
 
-preconfigure: src require-dependencies
-
 configure: preconfigure
 	src/configure --prefix="$(shell pwd)" $(CONFIGURE_OPTS)
 
-src:
-	git clone $(REPO) src
-
-install-dependencies:
-	apt-get --assume-yes install $(DEPENDENCIES)
-
-require-dependencies: $(DEPENDENCIES)
-
-$(DEPENDENCIES):
-	$(require-dependency)
-
-clean:
-	find . -not -path ./Makefile -delete

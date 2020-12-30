@@ -1,0 +1,18 @@
+define require-dependency
+	dpkg-query --show --showformat='$${db:Status-Status}' $@ | grep --line-regexp --fixed-strings 'installed'
+endef
+
+preconfigure: src require-dependencies
+
+install-dependencies:
+	apt-get --assume-yes install $(DEPENDENCIES)
+
+require-dependencies: $(DEPENDENCIES)
+
+$(DEPENDENCIES):
+	$(require-dependency)
+
+uninstall:
+
+clean: uninstall
+	find . -not -path ./Makefile -delete
