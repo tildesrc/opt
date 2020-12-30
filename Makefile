@@ -1,4 +1,4 @@
-TOPTARGETS = install build preconfigure configure src install-dependencies require-dependencies clean
+TOPTARGETS = install build preconfigure configure src install-dependencies require-dependencies pip3-dependencies clean
 SUBDIR_EXLUDES= dot/.
 SUBDIRS = $(filter-out $(SUBDIR_EXLUDES), $(wildcard */.))
 

@@ -2,7 +2,7 @@ define require-dependency
 	dpkg-query --show --showformat='$${db:Status-Status}' $@ | grep --line-regexp --fixed-strings 'installed'
 endef
 
-preconfigure: src require-dependencies
+preconfigure: src require-dependencies $(if $(PIP3_DEPENDENCIES), pip3-dependencies)
 
 install-dependencies:
 	apt-get --assume-yes install $(DEPENDENCIES)
@@ -11,6 +11,9 @@ require-dependencies: $(DEPENDENCIES)
 
 $(DEPENDENCIES):
 	$(require-dependency)
+
+pip3-dependencies:
+	pip3 install $(PIP3_DEPENDENCIES)
 
 uninstall:
 
