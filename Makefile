@@ -1,6 +1,6 @@
 TOPTARGETS = install build preconfigure configure src install-dependencies require-dependencies pip3-dependencies clean
-SUBDIR_EXLUDES= dot/.
-SUBDIRS = $(filter-out $(SUBDIR_EXLUDES), $(wildcard */.))
+SUBDIR_EXLUDES= dot/. apt-packages/.
+SUBDIRS = apt-packages/. $(filter-out $(SUBDIR_EXLUDES), $(wildcard */.))
 
 default: dependencies install
 

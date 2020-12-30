@@ -5,18 +5,18 @@ endef
 PRECONFIGURE_REQS = src require-dependencies
 
 ifdef PIP3_DEPENDENCIES
-	DEPENDENCIES += python3-pip
+	APT_DEPENDENCIES += python3-pip
 	PRECONFIGURE_REQS += pip3-dependencies
 endif
 
 preconfigure: $(PRECONFIGURE_REQS)
 
 install-dependencies:
-	apt-get --assume-yes install $(DEPENDENCIES)
+	apt-get --assume-yes install $(APT_DEPENDENCIES)
 
-require-dependencies: $(DEPENDENCIES)
+require-dependencies: $(APT_DEPENDENCIES)
 
-$(DEPENDENCIES):
+$(APT_DEPENDENCIES):
 	$(require-dependency)
 
 pip3-dependencies:

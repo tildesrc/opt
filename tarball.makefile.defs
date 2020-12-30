@@ -1,4 +1,4 @@
-DEPENDENCIES += curl
+APT_DEPENDENCIES += curl
 
 install: preconfigure
 	tar --verbose --strip-components=1 --extract --file src.tar

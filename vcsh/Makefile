@@ -1,5 +1,5 @@
 REPO=https://github.com/RichiH/vcsh
-DEPENDENCIES=libtest-most-perl libshell-command-perl ronn
+APT_DEPENDENCIES=libtest-most-perl libshell-command-perl ronn
 
 install: preconfigure
 	env PREFIX=$(shell pwd) make -C src install
