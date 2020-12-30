@@ -1,0 +1,28 @@
+define require-dependency
+	dpkg-query --show --showformat='$${db:Status-Status}' $@ | grep --line-regexp --fixed-strings 'installed'
+endef
+
+install: build
+	make -C src install
+
+build: configure
+	make -C src
+
+preconfigure: src require-dependencies
+
+configure: preconfigure
+	src/configure --prefix="$(shell pwd)" $(CONFIGURE_OPTS)
+
+src:
+	git clone $(REPO) src
+
+install-dependencies:
+	apt-get --assume-yes install $(DEPENDENCIES)
+
+require-dependencies: $(DEPENDENCIES)
+
+$(DEPENDENCIES):
+	$(require-dependency)
+
+clean:
+	find . -not -path ./Makefile -delete
