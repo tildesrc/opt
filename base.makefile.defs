@@ -12,7 +12,7 @@ endif
 preconfigure: $(PRECONFIGURE_REQS)
 
 list-dependencies:
-	echo $(APT_DEPENDENCIES) >> ../dependencies.list
+	echo "$(APT_DEPENDENCIES)" | sed -e 's/\s\+/\n/g' | sed -n '/\S/p' >> ../task-opt.includes
 
 require-dependencies: $(APT_DEPENDENCIES)
 
