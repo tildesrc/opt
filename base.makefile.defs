@@ -11,8 +11,8 @@ endif
 
 preconfigure: $(PRECONFIGURE_REQS)
 
-install-dependencies:
-	apt-get --assume-yes install $(APT_DEPENDENCIES)
+list-dependencies:
+	echo $(APT_DEPENDENCIES) >> ../dependencies.list
 
 require-dependencies: $(APT_DEPENDENCIES)
 

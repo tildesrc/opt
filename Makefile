@@ -1,11 +1,17 @@
-TOPTARGETS = install build preconfigure configure src install-dependencies require-dependencies pip3-dependencies clean
+TOPTARGETS = install build preconfigure configure src list-dependencies require-dependencies pip3-dependencies clean
 SUBDIR_EXLUDES= dot/. apt-packages/.
 SUBDIRS = apt-packages/. $(filter-out $(SUBDIR_EXLUDES), $(wildcard */.))
 
 default: dependencies install
 
 dependencies:
-	make require-dependencies || sudo make install-dependencies
+	make require-dependencies || make install-dependencies
+
+install-dependencies:
+	! [ -e dependencies ] || rm --verbose dependencies
+	make list-dependencies
+	./create-task-opt.sh
+	sudo apt-get install --autoremove  --assume-yes ./task-opt_current_all.deb
 
 image: Dockerfile
 	docker build -t opt .
