@@ -7,6 +7,13 @@ default: dependencies install
 dependencies:
 	make require-dependencies || sudo make install-dependencies
 
+image: Dockerfile
+	docker build -t opt .
+
+test: image
+	make clean
+	docker run -t opt
+
 $(TOPTARGETS): $(SUBDIRS)
 $(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
