@@ -11,7 +11,11 @@ install-dependencies:
 	! [ -e dependencies ] || rm --verbose dependencies
 	make list-dependencies
 	./create-task-opt.sh
-	sudo apt-get install --autoremove  --assume-yes ./task-opt_current_all.deb
+	sudo make install-task-opt
+
+install-task-opt:
+	apt-get install --autoremove  --assume-yes ./task-opt_current_all.deb
+	./mark-task-opt-depends.sh
 
 image: Dockerfile
 	docker build -t opt .
