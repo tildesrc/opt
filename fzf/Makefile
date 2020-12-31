@@ -7,4 +7,4 @@ include ../git.makefile.defs
 include ../base.makefile.defs
 
 uninstall:
-	src/uninstall
+	! [ -x src/uninstall ] || src/uninstall
