@@ -1,7 +1,3 @@
-define require-dependency
-	dpkg-query --show --showformat='$${db:Status-Status}' $@ | grep --line-regexp --fixed-strings 'installed'
-endef
-
 PRECONFIGURE_REQS = src require-dependencies
 
 ifdef PIP3_DEPENDENCIES
@@ -17,7 +13,7 @@ list-dependencies:
 require-dependencies: $(APT_DEPENDENCIES)
 
 $(APT_DEPENDENCIES):
-	$(require-dependency)
+	../check_dependencies.sh $@
 
 pip3-dependencies:
 	pip3 install $(PIP3_DEPENDENCIES)
