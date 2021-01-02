@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: $0 package0 [ package1 package2 ... ]"
+fi
+
+cd "$OPT_DIR"
+TASK_EXCLUDES="$@" make base-system
