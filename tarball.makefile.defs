@@ -5,3 +5,5 @@ install: preconfigure
 
 src:
 	curl --location $(TARBALL_URL) --output src.tar
+
+# vi: ft=make

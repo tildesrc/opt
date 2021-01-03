@@ -11,3 +11,4 @@ build: configure
 configure: preconfigure
 	src/configure --prefix="$(shell pwd)" $(CONFIGURE_OPTS)
 
+# vi: ft=make

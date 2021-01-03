@@ -6,5 +6,8 @@ if [[ $# -eq 0 ]]; then
   exit 1
 fi
 
-! dpkg-query --show --showformat='${db:Status-Status}\n' $@ |
-  grep --invert --line-regexp --fixed-strings 'installed'
+while [[ 0 -lt $# ]]; do
+  dpkg-query --show --showformat='${db:Status-Status}\n' $1 |
+    grep --line-regexp --fixed-strings --silent 'installed'
+  shift
+done

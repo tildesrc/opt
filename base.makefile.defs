@@ -12,6 +12,13 @@ list-dependencies:
 
 require-dependencies: $(APT_DEPENDENCIES)
 
+install-local-packages: $(LOCAL_PACKAGES)
+	for package in $(LOCAL_PACKAGES); do \
+    if ! ../check_dependencies.sh $$(dpkg-deb --show --showformat '$${Package}' $$package); then \
+      apt-get install --assume-yes ./$$package; \
+    fi; \
+  done
+
 $(APT_DEPENDENCIES):
 	../check_dependencies.sh $@
 
@@ -20,5 +27,11 @@ pip3-dependencies:
 
 uninstall:
 
+sudo-configure:
+
+post-configure:
+
 clean: uninstall
-	find . -not -path ./Makefile -delete
+	find . -not \( -path ./Makefile -or -path './*.deb' \) -delete
+
+# vi: ft=make
