@@ -31,6 +31,8 @@ sudo-configure:
 
 post-configure:
 
+download-debs:
+
 clean: uninstall
 	find . -not \( -path ./Makefile -or -path './*.deb' \) -delete
 

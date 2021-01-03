@@ -1,7 +1,9 @@
-TOPTARGETS = install build preconfigure configure sudo-configure post-configure src list-dependencies require-dependencies install-local-packages pip3-dependencies clean
+TOPTARGETS = install build preconfigure configure sudo-configure post-configure src list-dependencies require-dependencies install-local-packages pip3-dependencies clean download-debs
 SUBDIR_EXCLUDES = dot apt-packages opt test
 SUBDIRS = apt-packages $(filter-out $(SUBDIR_EXCLUDES), $(patsubst %/.,%, $(wildcard */.)))
-HOME_DEPLOY_FILES = $(HOME)/.ssh $(HOME)/.gnupg $(HOME)/.config/vcsh $(shell cd $(HOME) && vcsh list-tracked)
+ifneq ($(which vcsh),)
+	HOME_DEPLOY_FILES = $(HOME)/.ssh $(HOME)/.gnupg $(HOME)/.config/vcsh $(shell cd $(HOME) && vcsh list-tracked)
+endif
 REPO_DEPLOY_FILES = $(patsubst %,$(PWD)/%,$(shell git ls-files) .git)
 DEPLOY_FILES = $(REPO_DEPLOY_FILES) $(HOME_DEPLOY_FILES)
 DEPLOY_TAR=$(shell realpath deploy.tar)
@@ -16,6 +18,7 @@ dependencies:
 
 install-dependencies:
 	! [ -e task-opt.includes ] || rm --verbose task-opt.includes
+	make download-debs
 	make list-dependencies
 	touch task-opt.excludes
 	./build-task.sh task-opt
@@ -30,7 +33,7 @@ install-task-%: task-%_current_all.deb
 	apt-get install  --assume-yes ./$<
 	./mark-task-depends.sh $<
 
-deploy.tar: $(DEPLOY_FILES) vcsh
+deploy.tar: vcsh $(DEPLOY_FILES)
 	cd $(HOME) && tar --create --file "$(DEPLOY_TAR)" $(patsubst $(HOME)/%,%,$(DEPLOY_FILES))
 
 test: deploy.tar

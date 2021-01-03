@@ -1,0 +1,7 @@
+LOCAL_PACKAGES = $(wildcard *.deb)
+
+install:
+
+download-debs:
+	curl --remote-name $(PACKAGE_URL)
+# vi: ft=make
