@@ -1,4 +1,4 @@
-APT_DEPENDENCIES=fish git tmux pass aptitude docker.io rofi emacs jq rsync atop google-chrome-stable irssi
+APT_DEPENDENCIES=git vim tmux pass aptitude docker.io rofi jq rsync atop irssi emacs
 
 install:
 
