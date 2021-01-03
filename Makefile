@@ -1,6 +1,6 @@
 TOPTARGETS = install build preconfigure configure sudo-configure post-configure src list-dependencies require-dependencies install-local-packages pip3-dependencies clean
-SUBDIR_EXLUDES= dot/. apt-packages/. opt/. test/.
-SUBDIRS = apt-packages/. $(filter-out $(SUBDIR_EXLUDES), $(wildcard */.))
+SUBDIR_EXCLUDES = dot apt-packages opt test
+SUBDIRS = apt-packages $(filter-out $(SUBDIR_EXCLUDES), $(patsubst %/.,%, $(wildcard */.)))
 DEPLOY_FILES=$(shell git ls-files) .git
 DEPLOY_TAR=$(shell realpath deploy.tar)
 SSH_AUTH_SOCK_DIR=$(shell dirname $(SSH_AUTH_SOCK))
@@ -50,6 +50,6 @@ clean:
 
 $(TOPTARGETS): $(SUBDIRS)
 $(SUBDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+	$(MAKE) -C $@ $(filter $(TOPTARGETS),$(MAKECMDGOALS))
 
 .PHONY: $(TOPTARGETS) $(SUBDIRS)
