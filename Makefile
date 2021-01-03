@@ -33,11 +33,8 @@ deploy.tar: $(DEPLOY_FILES) vcsh
 	cd ~ && tar --append --file "$(DEPLOY_TAR)" .ssh/ .config/vcsh
 	cd ~ && vcsh list | while read repo; do vcsh "$$repo" ls-files; done | xargs tar --append --file "$(DEPLOY_TAR)"
 
-test: test/Dockerfile.debian.buster deploy.tar
-	docker build -f test/Dockerfile.debian.buster -t opt .
-
-run-test: 
-	docker run --tty --interactive --volume "$(SSH_AUTH_SOCK_DIR):$(SSH_AUTH_SOCK_DIR)" --env "SSH_AUTH_SOCK=$(SSH_AUTH_SOCK)" -t opt fish --login
+test: deploy.tar
+	make -C test
 
 base-system:
 	-./get-task-depends.sh task-base > task-base.includes

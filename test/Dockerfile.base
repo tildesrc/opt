@@ -1,4 +1,4 @@
-FROM debian:buster
+ENV DEBIAN_FRONTEND="noninteractive" 
 RUN apt-get update
 RUN apt-get install --assume-yes make sudo equivs
 
@@ -14,3 +14,7 @@ USER test_user
 RUN cd ~ && tar --verbose --extract --file deploy.tar
 WORKDIR /home/test_user/opt
 RUN "./init.sh"
+
+ENTRYPOINT ["bash", "--login"]
+
+# vi: ft=dockerfile
