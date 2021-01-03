@@ -1,7 +1,9 @@
 TOPTARGETS = install build preconfigure configure sudo-configure post-configure src list-dependencies require-dependencies install-local-packages pip3-dependencies clean
 SUBDIR_EXCLUDES = dot apt-packages opt test
 SUBDIRS = apt-packages $(filter-out $(SUBDIR_EXCLUDES), $(patsubst %/.,%, $(wildcard */.)))
-DEPLOY_FILES=$(shell git ls-files) .git
+HOME_DEPLOY_FILES = $(HOME)/.ssh $(HOME)/.gnupg $(HOME)/.config/vcsh $(shell cd $(HOME) && vcsh list-tracked)
+REPO_DEPLOY_FILES = $(patsubst %,$(PWD)/%,$(shell git ls-files) .git)
+DEPLOY_FILES = $(REPO_DEPLOY_FILES) $(HOME_DEPLOY_FILES)
 DEPLOY_TAR=$(shell realpath deploy.tar)
 SSH_AUTH_SOCK_DIR=$(shell dirname $(SSH_AUTH_SOCK))
 
@@ -29,9 +31,7 @@ install-task-%: task-%_current_all.deb
 	./mark-task-depends.sh $<
 
 deploy.tar: $(DEPLOY_FILES) vcsh
-	tar --transform='s:^:opt/:' --create --file "$(DEPLOY_TAR)" $(DEPLOY_FILES)
-	cd ~ && tar --append --file "$(DEPLOY_TAR)" .ssh/ .config/vcsh
-	cd ~ && vcsh list | while read repo; do vcsh "$$repo" ls-files; done | xargs tar --append --file "$(DEPLOY_TAR)"
+	cd $(HOME) && tar --create --file "$(DEPLOY_TAR)" $(patsubst $(HOME)/%,%,$(DEPLOY_FILES))
 
 test: deploy.tar
 	make -C test
