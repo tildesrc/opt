@@ -7,6 +7,6 @@ post-configure: install
 install: preconfigure
 	env PREFIX=$(shell pwd) make -C src install
 
-include ../git.makefile.defs
-include ../base.makefile.defs
+include ../defs/git.makefile
+include ../defs/base.makefile
 
