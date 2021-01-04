@@ -20,8 +20,13 @@ if [[ $(id -u) != 0 ]]; then
       INIT_REQUIRED=1
   fi
   if [[ -v INIT_REQUIRED ]]; then
-    echo "Enter root's password when prompted..."
-    su --preserve-env --command="$0"
+    if which sudo; then
+      echo "Enter your password when prompted..."
+      sudo --preserve-env --command="$0"
+    else
+      echo "Enter root's password when prompted..."
+      su --preserve-env --command="$0"
+    fi
   fi
   /usr/bin/sg sudo "make base-system && make install-dependencies && make"
 else
