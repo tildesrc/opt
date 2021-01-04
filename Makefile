@@ -1,7 +1,7 @@
 TOPTARGETS = install build preconfigure configure sudo-configure post-configure src list-dependencies require-dependencies install-local-packages pip3-dependencies clean download-debs
 SUBTARGET_EXCLUDES = dot apt-packages opt test tasks defs scripts
 SUBTARGETS = apt-packages $(filter-out $(SUBTARGET_EXCLUDES), $(patsubst %/.,%, $(wildcard */.)))
-ifneq ($(which vcsh),)
+ifneq ($(shell which vcsh),)
 	HOME_DEPLOY_FILES = $(HOME)/.ssh $(HOME)/.gnupg $(HOME)/.password-store $(HOME)/.config/vcsh $(shell cd $(HOME) && vcsh list-tracked)
 endif
 REPO_DEPLOY_FILES = $(patsubst %,$(PWD)/%,$(shell git ls-files) .git)
