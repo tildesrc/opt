@@ -13,17 +13,17 @@ if [[ $(id -u) != 0 ]]; then
     if cmp /etc/apt/sources.list sources.list; then
       rm sources.list
     else
-      INIT_REQUIRED = 1
+      INIT_REQUIRED=1
     fi
   fi
   if ! scripts/check_dependencies.sh ${predependencies[@]}; then
-      INIT_REQUIRED = 1
+      INIT_REQUIRED=1
   fi
   if [[ -v INIT_REQUIRED ]]; then
     echo "Enter root's password when prompted..."
     su --preserve-env --command="$0"
   fi
-  sg sudo "make base-system && make install-dependencies && make"
+  /usr/bin/sg sudo "make base-system && make install-dependencies && make"
 else
   if [[ -e sources.list ]]; then
     cp --verbose /etc/apt/sources.list /etc/apt/sources.list.orig
