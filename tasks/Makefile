@@ -4,7 +4,7 @@ install-dependencies:
 	make -C .. list-dependencies
 	touch task-opt.excludes
 	./build-task.sh task-opt
-	sudo make install-packages
+	OPT_USER=$(shell id --user --name) sudo --preserve-env=OPT_USER make install-packages
 
 install-packages:
 	make -C .. install-local-packages
